@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Judge</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <!-- Include CodeMirror or Ace Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Welcome to the Online Judge</h1>
+            <nav class="nav-bar">
+                <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+                <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <!-- Code Editor Section -->
+            <section class="code-editor">
+                <h2>Write and Submit Your Code</h2>
+                <form action="{% url 'submit_code' %}" method="post">
+                    {% csrf_token %}
+                    <textarea id="code" name="code" required></textarea>
+                    <input type="hidden" name="input" id="input" value="">
+                    <button type="submit" class="btn btn-submit">Submit Code</button>
+                </form>
+            </section>
+
+            <section class="view-problems">
+                <a href="{% url 'problem_list' %}" class="btn btn-secondary" target="_blank">View All Problems</a>
+            </section>
+
+            <section class="submit-problem">
+                <h2>Submit a Problem</h2>
+                <form action="{% url 'submit_problem' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="title">Problem Title:</label>
+                        <input type="text" id="title" name="title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-submit">Submit</button>
+                </form>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Online Judge</p>
+        </div>
+    </footer>
+    <script>
+        // Initialize CodeMirror
+        var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+            lineNumbers: true,
+            mode: 'python',
+            theme: 'default'
+        });
+    </script>
+</body>
+</html>

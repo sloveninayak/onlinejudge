@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: gunicorn algobackend.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - compiler
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: algobackend
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+
+  compiler:
+    build: ./compiler_service
+    ports:
+      - "5000:5000"

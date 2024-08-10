@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Problem</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Submit a Problem</h1>
+        <nav>
+            <a href="{% url 'home' %}">Home</a> |
+            <a href="{% url 'problem_list' %}">View Problems</a> |
+            <a href="{% url 'login' %}">Login</a> |
+            <a href="{% url 'logout' %}">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Submit a Solution for: {{ problem.title }}</h2>
+            <p>{{ problem.description }}</p>
+            <form method="post" action="{% url 'submit_code' %}">
+                {% csrf_token %}
+                <textarea id="code" name="code" required></textarea>
+                <input type="hidden" name="problem_id" value="{{ problem.id }}">
+                <input type="hidden" name="input" id="input" value="">
+                <button type="submit">Submit Code</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Online Judge</p>
+    </footer>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+            lineNumbers: true,
+            mode: 'python',
+            theme: 'default'
+        });
+    </script>
+</body>
+</html>
